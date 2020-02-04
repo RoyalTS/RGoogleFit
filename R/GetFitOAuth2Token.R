@@ -10,19 +10,19 @@
 GetFitOauth2Token <- function() {
   client_id = getOption('RGoogleFit.client_id')
   client_secret = getOption('RGoogleFit.client_secret')
-  
+
   assert(!is.null(client_id),
          'Please set \'RGoogleFit.client_id\' option')
   assert(!is.null(client_secret),
          'Please set \'RGoogleFit.client_secret\' option')
-  
+
   oauth2_token <- RGoogleFitObjects$oauth2_object
-  
+
   if (!is.null(oauth2_token)) {
     if (!oauth2_token$validate()) {
       oauth2_token$refresh()
     }
-    
+
   }
   else
   {
@@ -35,7 +35,9 @@ GetFitOauth2Token <- function() {
       ),
       scope = c(
         "https://www.googleapis.com/auth/fitness.activity.read",
-        "https://www.googleapis.com/auth/fitness.location.read"
+        "https://www.googleapis.com/auth/fitness.location.read",
+        "https://www.googleapis.com/auth/fitness.body.read",
+        "https://www.googleapis.com/auth/fitness.nutrition.read"
       ) ,
       use_oob = TRUE,
       cache = TRUE
@@ -44,11 +46,11 @@ GetFitOauth2Token <- function() {
       oauth2_token$refresh()
     }
   }
-  
+
   RGoogleFitObjects$oauth2_object <- oauth2_token
 
   return(oauth2_token$credentials$access_token)
-  
+
 }
 
 #' @title GetFitOauth2Object
@@ -59,5 +61,5 @@ GetFitOauth2Token <- function() {
 GetFitOauth2Object <- function() {
 
   return(RGoogleFitObjects$oauth2_object)
-  
+
 }
