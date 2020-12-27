@@ -26,7 +26,9 @@ GetFitOauth2Token <- function() {
             key = getOption("RGoogleFit.client_id"), secret = getOption("RGoogleFit.client_secret")), 
             scope = c("https://www.googleapis.com/auth/fitness.activity.read", "https://www.googleapis.com/auth/fitness.location.read", 
                 "https://www.googleapis.com/auth/fitness.body.read", "https://www.googleapis.com/auth/fitness.nutrition.read"), 
-            use_oob = TRUE, cache = TRUE)
+            use_oob = getOption("httr_oob_default"),
+            cache = TRUE
+        )
         if (!oauth2_token$validate()) {
             oauth2_token$refresh()
         }
